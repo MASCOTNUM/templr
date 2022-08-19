@@ -2,10 +2,10 @@ name: submit-CRAN
 
 on:
   push:
-    branches: [ master ]
+    branches: [main, master]
     tags: [ '*.*' ]
   pull_request:
-    branches: [ master ]
+    branches: [main, master]
 
 env:
   DEBUG_CI: true
