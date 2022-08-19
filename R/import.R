@@ -35,10 +35,10 @@ import = function(..., trace=function(...) cat(paste0(...,"\n"))) {
         }
 
         in_base = F
-        try(in_base <- library(n,logical.return = T,character.only = T, quietly = T),silent = T)
+        try(in_base <- base::library(n,logical.return = T,character.only = T, quietly = T),silent = T)
         if (!in_base) {
             in_loc = F
-            try(in_loc <- library(n,logical.return = T,character.only = T, quietly = T,lib.loc = lib.loc) ,silent = T)
+            try(in_loc <- base::library(n,logical.return = T,character.only = T, quietly = T,lib.loc = lib.loc) ,silent = T)
             if (!in_loc) {
                 if (!is.null(src)) {
                     trace(paste0("  Using 'remotes' to install ",l))
@@ -52,9 +52,9 @@ import = function(..., trace=function(...) cat(paste0(...,"\n"))) {
             } else trace(paste0("  Loaded package ",l," from ",lib.loc,": ",paste0(collapse=", ",list.files(lib.loc))))
 
             try_load=F
-            try(try_load <- library(n,logical.return = T,character.only = T, quietly = T,lib.loc = lib.loc),silent = T)
+            try(try_load <- base::library(n,logical.return = T,character.only = T, quietly = T,lib.loc = lib.loc),silent = T)
             if (!try_load) {
-                try(try_load <- library(n,logical.return = T,character.only = T, quietly = F,lib.loc = lib.loc),silent = F)
+                try(try_load <- base::library(n,logical.return = T,character.only = T, quietly = F,lib.loc = lib.loc),silent = F)
                 stop(paste0("Cannot load package ",l," as not available in ",lib.loc,": ",paste0(collapse=", ",list.files(lib.loc))))
             }
         } else
