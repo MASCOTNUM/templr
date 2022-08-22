@@ -1,5 +1,7 @@
 .onLoad <- function(libname, pkgname) {
-    lib = file.path(getwd(),".lib")
+    # avoid using user home for .lib storage. Should be in a project dir!
+    if (path_home()==path.expand(getwd())) lib_parent = tempdir() else lib_parent=getwd()
+    lib = file.path(lib_parent,".lib")
     dir.create(lib,showWarnings = F,recursive = T)
     assign("lib.loc", normalizePath(lib), envir = parent.env(environment()))
     .libPaths(lib.loc)
