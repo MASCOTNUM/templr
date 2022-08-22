@@ -43,7 +43,6 @@ getInitialDesign <- function(algorithm, input, output) {
     
     Sys.sleep(.1)
     
-    print("?Xn")
     Xn = ask_X(id=algorithm$id)
     print(Xn)
     names(Xn) <- names(algorithm$input)
