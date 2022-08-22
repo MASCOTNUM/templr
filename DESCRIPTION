@@ -6,10 +6,12 @@ Date: 2022-08-05
 Author: Yann Richet <yann.richet@irsn.fr>
 Maintainer: Yann Richet <yann.richet@irsn.fr>
 Description: Helper functions for MASCOTNUM algorithm template, for design of numerical expriment practice:
-  * algorithm template parser to support MASCOTNUM specification <https://www.gdr-mascotnum.fr/template.html>,
-  * ask & tell decoupling injection (inspired by Gilles Pujol <https://search.r-project.org/CRAN/refmans/sensitivity/html/decoupling.html>) 
-    to use "crimped" algorithms (like uniroot, optim, ...) outside R,
-  * basic template examples: Brent algorithm for 1 dim root finding, L-BFGS-B from optim.
+    \begin{itemize}
+      \item algorithm template parser to support MASCOTNUM specification <https://www.gdr-mascotnum.fr/template.html>,
+      \item ask & tell decoupling injection (inspired by Gilles Pujol <https://search.r-project.org/CRAN/refmans/sensitivity/html/decoupling.html>) 
+          to use "crimped" algorithms (like uniroot, optim, ...) outside R,
+      \item basic template examples: Brent algorithm for 1 dim root finding, L-BFGS-B from optim.
+    \end{itemize}
 License: Apache License (>= 2)
 Encoding: UTF-8
 Depends: R (>= 4.0)
