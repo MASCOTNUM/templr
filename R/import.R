@@ -8,6 +8,7 @@ dir.create(lib.loc,showWarnings = F)
 #' @param ... dependencies/libraries/packages to load
 #' @param trace display info
 #'
+#' @importFrom remotes install_github
 #' @export
 #'
 #' @examples
