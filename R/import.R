@@ -1,6 +1,9 @@
-lib.loc = normalizePath(file.path(getwd(),".lib"))
-dir.create(lib.loc,showWarnings = F)
-.libPaths(lib.loc)
+.onLoad <- function(libname, pkgname) {
+    lib = file.path(getwd(),".lib")
+    dir.create(lib,showWarnings = F,recursive = T)
+    assign("lib.loc", normalizePath(lib), envir = parent.env(environment()))
+    .libPaths(lib.loc)
+}
 
 #' Dependencies loader, supports many protocols like github:, gitlab:, ... using remotes::instal_...
 #' Will create a local '.lib' directory to store packages installed
