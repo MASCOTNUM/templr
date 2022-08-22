@@ -28,11 +28,13 @@ getInitialDesign <- function(algorithm, input, output) {
     library(templr)
     algorithm$job = future(evaluator=plan("multisession"),lazy = FALSE,{
         sink(paste0('BFGS_',algorithm$id,'.out'),type='output')
-        o = optim(par=(min.input(input)+max.input(input))/2,
+        print("Starting optim()")
+        o = optim(par=(min_input(input)+max_input(input))/2,
                   fn=function(x) {
-                      ask_Y(id=algorithm$id,matrix(x,ncol=algorithm$d))}, 
-                  lower=min.input(input), upper=max.input(input), 
+                      ask_Y(id=algorithm$id,x=matrix(x,ncol=algorithm$d))}, 
+                  lower=min_input(input), upper=max_input(input), 
                   method="L-BFGS-B",control=list(maxit=algorithm$maxit))
+        print("optim() ended")
         print(o)
         sink(type='output')
         ask_Y(id=algorithm$id,matrix(NaN,ncol=algorithm$d))
