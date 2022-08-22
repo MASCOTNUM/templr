@@ -69,6 +69,3 @@ o_run  = run.algorithm(BFGS.R,
 
 argmin = as.numeric(strsplit(gsub(".*<argmin>","",gsub("</argmin>.*","",o_run)),",")[[1]])
 expect_equal(argmin,o_ref$par)
-
-# cleanup
-unlink(templr:::lib.loc, recursive=TRUE)
