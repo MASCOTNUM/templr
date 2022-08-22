@@ -22,6 +22,10 @@ ask_Y <- function(x,
                   sleep_step=0.1, sleep_init=0, timeout=360000,
                   trace=function(...) cat(paste0(...,"\n")), clean = T, force_cleanup=F) {
     
+    if (!is.null(tmp_path) && !dir.exists(tmp_path))
+        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+            stop(paste0("Could not use tmp_path directory:",tmp_path))
+    
     if (file.exists(file = Y_file(id,Y.tmp,tmp_path))) {
         if (!force_cleanup)
             stop(paste0("This id:'",id,"' is already in use. Please choose another one, or use 'force_cleanup=T'"))
@@ -90,6 +94,10 @@ ask_dY <- function(x, dX=0.001,
                    id=0, dX.tmp="dX.todo", dY.tmp="dY.done", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
                    sleep_step=0.1, sleep_init=0,  timeout=360000,
                    trace=function(...) cat(paste0(...,"\n")),clean = T, force_cleanup=F) {
+    
+    if (!is.null(tmp_path) && !dir.exists(tmp_path))
+        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+            stop(paste0("Could not use tmp_path directory:",tmp_path))
     
     if (file.exists(file = dY_file(id,dY.tmp,tmp_path))) {
         if (!force_cleanup)
@@ -173,6 +181,10 @@ ask_X <- function(id=0,
                   sleep_step=0.1, sleep_init=0.1,timeout=360000,
                   trace=function(...) cat(paste0(...,"\n")), clean = T) {
     
+    if (!is.null(tmp_path) && !dir.exists(tmp_path))
+        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+            stop(paste0("Could not use tmp_path directory:",tmp_path))
+    
     if (is.function(trace)) trace("?X ")
     
     Sys.sleep(sleep_init)
@@ -216,6 +228,10 @@ ask_X <- function(id=0,
 ask_dX <- function(id=0, dX.tmp="dX.todo", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
                    sleep_step=0.1, sleep_init=0, timeout=360000,
                    trace=function(...) cat(paste0(...,"\n")), clean=T) {
+    
+    if (!is.null(tmp_path) && !dir.exists(tmp_path))
+        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+            stop(paste0("Could not use tmp_path directory:",tmp_path))
     
     if (is.function(trace)) trace("?dX ")
     
@@ -263,6 +279,10 @@ tell_Y <- function(y,
                    id=0, Y.tmp="Y.done", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
                    trace=function(...) cat(paste0(...,"\n")), force_cleanup=F) {
     
+    if (!is.null(tmp_path) && !dir.exists(tmp_path))
+        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+            stop(paste0("Could not use tmp_path directory:",tmp_path))
+    
     if (file.exists(file = Y_file(id,Y.tmp,tmp_path))) {
         if (!force_cleanup)
             stop(paste0("This id:'",id,"' is already in use. Please choose another one, or use 'force_cleanup=T'"))
@@ -298,6 +318,10 @@ tell_Y <- function(y,
 tell_dY <- function(dy, 
                     id=0, dY.tmp="dY.done", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
                     trace=function(...) cat(paste0(...,"\n")), force_cleanup=F) {
+    
+    if (!is.null(tmp_path) && !dir.exists(tmp_path))
+        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+            stop(paste0("Could not use tmp_path directory:",tmp_path))
     
     if (file.exists(file = dY_file(id,dY.tmp,tmp_path))) {
         if (!force_cleanup)
