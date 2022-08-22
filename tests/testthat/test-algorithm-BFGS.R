@@ -20,7 +20,8 @@ o_ref = optim(par = (pi/2-pi/3)/2,
               method="L-BFGS-B",control=list(maxit=10))
 o_run = run.algorithm(BFGS.R,
                        f,
-                       list(x=list(min=-pi/3,max=pi/2)))
+                       list(x=list(min=-pi/3,max=pi/2)),
+                      work_dir=tempdir())
 
 argmin = as.numeric(gsub(".*<argmin>","",gsub("</argmin>.*","",o_run)))
 expect_equal(argmin,o_ref$par)
@@ -41,7 +42,8 @@ o_ref = optim(par=c(.5,.5),
 
 o_run  = run.algorithm(BFGS.R,
                      branin01,
-                     list(x1=list(min=0,max=1),x2=list(min=0,max=1)),options=list(maxit=10))
+                     list(x1=list(min=0,max=1),x2=list(min=0,max=1)),options=list(maxit=10),
+                     work_dir=tempdir())
 
 argmin = as.numeric(strsplit(gsub(".*<argmin>","",gsub("</argmin>.*","",o_run)),",")[[1]])
 expect_equal(argmin,o_ref$par)
@@ -62,7 +64,8 @@ o_ref = optim(par=c(2.5,7.5),
 
 o_run  = run.algorithm(BFGS.R,
                      branin,
-                     list(x1=list(min=-5,max=10),x2=list(min=0,max=15)))
+                     list(x1=list(min=-5,max=10),x2=list(min=0,max=15)),
+                     work_dir=tempdir())
 
 argmin = as.numeric(strsplit(gsub(".*<argmin>","",gsub("</argmin>.*","",o_run)),",")[[1]])
 expect_equal(argmin,o_ref$par)

@@ -14,7 +14,8 @@ algo = parse.algorithm(Brent.R)
 
 f = function(x) sin(x)-0.7
 
-run = run.algorithm(Brent.R,f,list(x=list(min=0,max=pi/2)),work_dir=tempdir())
+run = run.algorithm(Brent.R,f,list(x=list(min=0,max=pi/2)),
+                    work_dir=tempdir())
 
 root = as.numeric(gsub(".*<root>","",gsub("</root>.*","",run)))
 expect_equal(f(root),0, tolerance = as.numeric(algo$options$ytol))

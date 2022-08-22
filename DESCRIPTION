@@ -9,7 +9,7 @@ Description: Helper functions for MASCOTNUM algorithm template, dedicated to des
 License: Apache License (>= 2)
 Encoding: UTF-8
 Depends: R (>= 4.0)
-Imports: utils, stats, future, remotes
-Suggests: testthat
+Imports: utils, stats, remotes
+Suggests: testthat, future
 URL: https://github.com/MASCOTNUM/templr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1

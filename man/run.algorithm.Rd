@@ -39,6 +39,7 @@ Apply a template algorithm file to an objective function
 run.algorithm(
   system.file("Brent.R", package="templr"),
   function(x) sin(x)-0.75,
-  list(x=list(min=0,max=pi/2))
+  list(x=list(min=0,max=pi/2)),
+  work_dir=tempdir()
   )
 }

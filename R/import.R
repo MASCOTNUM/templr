@@ -42,7 +42,8 @@ import = function(..., trace=function(...) cat(paste0(...,"\n"))) {
             if (!in_loc) {
                 if (!is.null(src)) {
                     trace(paste0("  Using 'remotes' to install ",l))
-                    import("remotes")
+                    if (!base::library("remotes",logical.return = T,character.only = T, quietly = T))
+                        import("remotes")
                     eval(parse(text=paste0("try(remotes::install_",src,"(file.path(path,n),force=T))")))
                 } else {
                     trace(paste0("  Using install.packages to install ",l))
