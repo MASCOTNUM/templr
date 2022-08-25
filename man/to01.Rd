@@ -18,5 +18,5 @@ X scaled in [0,1]
 Helper function to scale from [min,max] to [0,1]
 }
 \examples{
-to01(10+10*data.frame(x=matrix(runif(10))),list(min=10,max=20))
+to01(10+10*data.frame(x=matrix(runif(10))),list(x=list(min=10,max=20)))
 }

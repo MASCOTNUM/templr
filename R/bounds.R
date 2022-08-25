@@ -6,7 +6,8 @@
 #' @return X scaled in [inp$min, inp$max]
 #' @export
 #'
-#' @examples from01(data.frame(x=matrix(runif(10))),list(x=list(min=10,max=20)))
+#' @examples 
+#' from01(data.frame(x=matrix(runif(10))),list(x=list(min=10,max=20)))
 from01 = function(X, inp) {
     nX = names(X)
     for (i in 1:ncol(X)) {
@@ -24,7 +25,8 @@ from01 = function(X, inp) {
 #' @return X scaled in [0,1]
 #' @export
 #'
-#' @examples to01(10+10*data.frame(x=matrix(runif(10))),list(min=10,max=20))
+#' @examples 
+#' to01(10+10*data.frame(x=matrix(runif(10))),list(x=list(min=10,max=20)))
 to01 = function(X, inp) {
     nX = names(X)
     for (i in 1:ncol(X)) {
@@ -42,7 +44,8 @@ to01 = function(X, inp) {
 #' @return array of inp$...$min values
 #' @export
 #'
-#' @examples min_input(list(x1=list(min=0,max=1),x2=list(min=2,max=3)))
+#' @examples 
+#' min_input(list(x1=list(min=0,max=1),x2=list(min=2,max=3)))
 min_input = function(inp){
     m=list()
     for (xi in names(inp)) m[[xi]]=inp[[xi]]$min
@@ -57,7 +60,8 @@ min_input = function(inp){
 #' @return array of inp$...$max values
 #' @export
 #'
-#' @examples max_input(list(x1=list(min=0,max=1),x2=list(min=2,max=3)))
+#' @examples 
+#' max_input(list(x1=list(min=0,max=1),x2=list(min=2,max=3)))
 max_input = function(inp){
     m=list()
     for (xi in names(inp)) m[[xi]]=inp[[xi]]$max
