@@ -22,7 +22,7 @@ Dependencies loader, supports many protocols like github:, gitlab:, ... using re
 Will create a local '.lib' directory to store packages installed
 }
 \examples{
-\dontrun{
+\donttest{
   import('VGAM')
 }
 }
