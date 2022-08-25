@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   import('VGAM')
 #' }
 import = function(..., 
@@ -51,11 +51,11 @@ import = function(...,
                                 trace(paste0("  Using install.packages to install ",l))
                                 try(utils::install.packages(l,lib = lib.loc,keep_outputs=T,dependencies=T),silent=F)
                             }
-                            if (!is.null(lib.loc)) 
+                            if (is.character(lib.loc)) 
                                 trace(paste0("    Available packages in ",lib.loc,": ", paste0(collapse=", ",list.files(lib.loc))))
                         } else {
                             loaded[[l]] <- TRUE
-                            if (!is.null(lib.loc)) 
+                            if (is.character(lib.loc)) 
                                 trace(paste0("  Loaded package ",l," from ",lib.loc,": ",paste0(collapse=", ",list.files(lib.loc))))
                         }
                         
