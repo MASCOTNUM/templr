@@ -192,7 +192,7 @@ run.algorithm <- function(algorithm_file,
     prev.path = getwd()
     on.exit(setwd(prev.path))
     
-    dir.create(work_dir)
+    dir.create(work_dir, showWarnings = !silent)
     setwd(work_dir)
     
     # print.env(algorithm$envir)

@@ -26,8 +26,9 @@ getInitialDesign <- function(algorithm, input, output) {
     algorithm$d <- length(input)
     library(future)
     library(templr)
+    wd = getwd()
     algorithm$job = future(evaluator=plan("multisession"),lazy = FALSE,{
-        sink(paste0('BFGS_',algorithm$id,'.out'),type='output')
+        sink(file.path(wd,paste0('BFGS_',algorithm$id,'.out')),type='output')
         print("Starting optim()")
         o = optim(par=(min_input(input)+max_input(input))/2,
                   fn=function(x) {

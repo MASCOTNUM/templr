@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' if(interactive()){
 #'   import('VGAM')
 #' }
 import = function(..., 
