@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' ## In main R session
 #'   ask_Y(x=123)
 #' ## In another R session
@@ -20,10 +20,10 @@
 ask_Y <- function(x,
                   id=0, X.tmp="X.todo", Y.tmp="Y.done", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
                   sleep_step=0.1, sleep_init=0, timeout=360000,
-                  trace=function(...) cat(paste0(...,"\n")), clean = T, force_cleanup=F) {
+                  trace=function(...) cat(paste0(...,"\n")), clean = TRUE, force_cleanup=F) {
 
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
-        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+        if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
             stop(paste0("Could not use tmp_path directory: ",tmp_path))
     
     if (file.exists(file = Y_file(id,Y.tmp,tmp_path))) {
@@ -82,7 +82,7 @@ ask_Y <- function(x,
 #' @export
 #'
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' ## In main R session
 #'   ask_dY(x=123)
 #' ## In another R session
@@ -93,10 +93,10 @@ ask_Y <- function(x,
 ask_dY <- function(x, dX=0.001, 
                    id=0, dX.tmp="dX.todo", dY.tmp="dY.done", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
                    sleep_step=0.1, sleep_init=0,  timeout=360000,
-                   trace=function(...) cat(paste0(...,"\n")),clean = T, force_cleanup=F) {
+                   trace=function(...) cat(paste0(...,"\n")),clean = TRUE, force_cleanup=F) {
     
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
-        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+        if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
             stop(paste0("Could not use tmp_path directory: ",tmp_path))
     
     if (file.exists(file = dY_file(id,dY.tmp,tmp_path))) {
@@ -168,7 +168,7 @@ ask_dY <- function(x, dX=0.001,
 #' @export
 #'
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' ## In main R session
 #'   ask_Y(x=123)
 #' ## In another R session
@@ -179,10 +179,10 @@ ask_dY <- function(x, dX=0.001,
 ask_X <- function(id=0, 
                   X.tmp="X.todo", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
                   sleep_step=0.1, sleep_init=0.1,timeout=360000,
-                  trace=function(...) cat(paste0(...,"\n")), clean = T) {
+                  trace=function(...) cat(paste0(...,"\n")), clean = TRUE) {
     
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
-        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+        if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
             stop(paste0("Could not use tmp_path directory: ",tmp_path))
     
     if (is.function(trace)) trace("?X ")
@@ -217,7 +217,7 @@ ask_X <- function(id=0,
 #' @export
 #'
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' ## In main R session
 #'   ask_dY(x=123)
 #' ## In another R session
@@ -230,7 +230,7 @@ ask_dX <- function(id=0, dX.tmp="dX.todo", tmp_path=file.path(tempdir(),"..","as
                    trace=function(...) cat(paste0(...,"\n")), clean=T) {
     
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
-        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+        if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
             stop(paste0("Could not use tmp_path directory: ",tmp_path))
     
     if (is.function(trace)) trace("?dX ")
@@ -267,7 +267,7 @@ ask_dX <- function(id=0, dX.tmp="dX.todo", tmp_path=file.path(tempdir(),"..","as
 #' @export
 #'
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' ## In main R session
 #'   ask_Y(x=123)
 #' ## In another R session
@@ -280,7 +280,7 @@ tell_Y <- function(y,
                    trace=function(...) cat(paste0(...,"\n")), force_cleanup=F) {
     
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
-        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+        if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
             stop(paste0("Could not use tmp_path directory: ",tmp_path))
     
     if (file.exists(file = Y_file(id,Y.tmp,tmp_path))) {
@@ -307,7 +307,7 @@ tell_Y <- function(y,
 #' @export
 #'
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' ## In main R session
 #'   ask_dY(x=123)
 #' ## In another R session
@@ -320,7 +320,7 @@ tell_dY <- function(dy,
                     trace=function(...) cat(paste0(...,"\n")), force_cleanup=F) {
     
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
-        if (!dir.create(tmp_path,showWarnings = F,recursive = T))
+        if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
             stop(paste0("Could not use tmp_path directory: ",tmp_path))
     
     if (file.exists(file = dY_file(id,dY.tmp,tmp_path))) {

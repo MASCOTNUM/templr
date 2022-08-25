@@ -14,12 +14,15 @@ import(..., lib.loc = NULL, trace = function(...) cat(paste0(..., "\\n")))
 
 \item{trace}{display info}
 }
+\value{
+(list of) load status of packages (TRUE/FALSE)
+}
 \description{
 Dependencies loader, supports many protocols like github:, gitlab:, ... using remotes::instal_...
 Will create a local '.lib' directory to store packages installed
 }
 \examples{
-\dontrun{
-  options(data.frame(repos="http://cran.irsn.fr")); import('VGAM')
+\donttest{
+  import('VGAM')
 }
 }

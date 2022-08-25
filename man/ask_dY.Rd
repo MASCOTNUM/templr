@@ -15,7 +15,7 @@ ask_dY(
   sleep_init = 0,
   timeout = 360000,
   trace = function(...) cat(paste0(..., "\\n")),
-  clean = T,
+  clean = TRUE,
   force_cleanup = F
 )
 }
@@ -57,7 +57,7 @@ In this secondary process, you can read what X is called using 'ask_X', and when
 just call 'tell_Y' to give it.
 }
 \examples{
-\dontrun{
+\donttest{
 ## In main R session
   ask_dY(x=123)
 ## In another R session

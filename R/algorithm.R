@@ -190,6 +190,8 @@ run.algorithm <- function(algorithm_file,
     }
     
     prev.path = getwd()
+    on.exit(setwd(prev.path))
+    
     dir.create(work_dir)
     setwd(work_dir)
     
