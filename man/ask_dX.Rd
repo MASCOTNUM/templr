@@ -12,7 +12,7 @@ ask_dX(
   sleep_init = 0,
   timeout = 360000,
   trace = function(...) cat(paste0(..., "\\n")),
-  clean = T
+  clean = TRUE
 )
 }
 \arguments{

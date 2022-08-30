@@ -16,7 +16,7 @@ ask_dY(
   timeout = 360000,
   trace = function(...) cat(paste0(..., "\\n")),
   clean = TRUE,
-  force_cleanup = F
+  force_cleanup = FALSE
 )
 }
 \arguments{

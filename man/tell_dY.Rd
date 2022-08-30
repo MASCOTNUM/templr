@@ -10,7 +10,7 @@ tell_dY(
   dY.tmp = "dY.done",
   tmp_path = file.path(tempdir(), "..", "asktell.tmp"),
   trace = function(...) cat(paste0(..., "\\n")),
-  force_cleanup = F
+  force_cleanup = FALSE
 )
 }
 \arguments{
