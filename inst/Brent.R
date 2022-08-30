@@ -27,6 +27,9 @@ getInitialDesign <- function(brent, input, output) {
     if (length(input)!=1) stop("Cannot find root of more than 1D function")
     brent$i <- 0
     brent$input <- input
+    # force init of later used global variables
+    e <- NULL
+    d <- NULL
 
     # Rescale xtol in [0,1]
     Xname = names(brent$input)[1]
