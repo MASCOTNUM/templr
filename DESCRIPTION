@@ -5,9 +5,15 @@ Version: 0.1-0
 Date: 2022-08-05
 Author: Yann Richet <yann.richet@irsn.fr>
 Maintainer: Yann Richet <yann.richet@irsn.fr>
+Authors@R: 
+     c(person(given = "Yann",
+             family = "Richet",
+             role = c("aut", "cre"),
+             email = "yann.richet@irsn.fr",
+             comment = c(ORCID = "0000-0002-5677-8458")))
 Description: Helper functions for MASCOTNUM algorithm template, for design of numerical experiments practice:
     algorithm template parser to support MASCOTNUM specification <https://www.gdr-mascotnum.fr/template.html>, 
-    'ask & tell' decoupling injection (inspired by Gilles Pujol <https://search.r-project.org/CRAN/refmans/sensitivity/html/decoupling.html>) 
+    'ask & tell' decoupling injection (inspired by <https://search.r-project.org/CRAN/refmans/sensitivity/html/decoupling.html>) 
     to use "crimped" algorithms (like uniroot(), optim(), ...) from outside R,
     basic template examples: Brent algorithm for 1 dim root finding and L-BFGS-B from base optim().
 License: Apache License (>= 2)
