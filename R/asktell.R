@@ -20,7 +20,7 @@
 ask_Y <- function(x,
                   id=0, X.tmp="X.todo", Y.tmp="Y.done", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
                   sleep_step=0.1, sleep_init=0, timeout=360000,
-                  trace=function(...) cat(paste0(...,"\n")), clean = TRUE, force_cleanup=F) {
+                  trace=function(...) cat(paste0(...,"\n")), clean = TRUE, force_cleanup=FALSE) {
 
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
         if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
@@ -93,7 +93,7 @@ ask_Y <- function(x,
 ask_dY <- function(x, dX=0.001, 
                    id=0, dX.tmp="dX.todo", dY.tmp="dY.done", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
                    sleep_step=0.1, sleep_init=0,  timeout=360000,
-                   trace=function(...) cat(paste0(...,"\n")),clean = TRUE, force_cleanup=F) {
+                   trace=function(...) cat(paste0(...,"\n")),clean = TRUE, force_cleanup=FALSE) {
     
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
         if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
@@ -227,7 +227,7 @@ ask_X <- function(id=0,
 #' }
 ask_dX <- function(id=0, dX.tmp="dX.todo", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
                    sleep_step=0.1, sleep_init=0, timeout=360000,
-                   trace=function(...) cat(paste0(...,"\n")), clean=T) {
+                   trace=function(...) cat(paste0(...,"\n")), clean=TRUE) {
     
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
         if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
@@ -277,7 +277,7 @@ ask_dX <- function(id=0, dX.tmp="dX.todo", tmp_path=file.path(tempdir(),"..","as
 #' }
 tell_Y <- function(y, 
                    id=0, Y.tmp="Y.done", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
-                   trace=function(...) cat(paste0(...,"\n")), force_cleanup=F) {
+                   trace=function(...) cat(paste0(...,"\n")), force_cleanup=FALSE) {
     
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
         if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
@@ -317,7 +317,7 @@ tell_Y <- function(y,
 #' }
 tell_dY <- function(dy, 
                     id=0, dY.tmp="dY.done", tmp_path=file.path(tempdir(),"..","asktell.tmp"), 
-                    trace=function(...) cat(paste0(...,"\n")), force_cleanup=F) {
+                    trace=function(...) cat(paste0(...,"\n")), force_cleanup=FALSE) {
     
     if (!is.null(tmp_path) && !dir.exists(tmp_path))
         if (!dir.create(tmp_path,showWarnings = FALSE,recursive = TRUE))
