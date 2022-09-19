@@ -225,8 +225,7 @@ run.algorithm <- function(algorithm_file,
     colnames(X0) <- names(input)
     if (!silent) trace(capture.output(print(X0)))
     F = function(X) {
-        m = t(apply(X,1,objective_function));
-        print(m)
+        m = matrix(apply(X,1,objective_function),nrow=nrow(X),byrow=T);
         colnames(m)<-output;
         m
     }
