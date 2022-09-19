@@ -170,16 +170,18 @@ read.algorithm = function(file,info="help"){
 run.algorithm <- function(algorithm_file,
                           objective_function,
                           input,
+                          output=NULL,
                           options=NULL,
                           work_dir=".",
                           trace=function(...) cat(paste0(...,"\n")),silent=FALSE) { #},work_dir=paste0(tempdir(),floor(1000*runif(1)))) {
     
     if (!is.function(trace)) trace = function(...){}
     
-    output = utils::capture.output(print(match.call()))
-    output = strsplit(output,"objective_function = ",fixed = T)[[1]][2]
-    output = strsplit(output,",",fixed = T)[[1]][1]
-
+    if (is.null(output)) { # Use objective function name if no output arg provided
+        output = utils::capture.output(print(match.call()))
+        output = strsplit(output,"objective_function = ",fixed = T)[[1]][2]
+        output = strsplit(output,",",fixed = T)[[1]][1]
+    }
     # algorithm_file = normalizePath(algorithm_file)
     
     trace(paste0("Parsing code... (in ",algorithm_file, " from ",getwd(),")"))
