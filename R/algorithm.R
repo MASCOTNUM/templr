@@ -223,6 +223,7 @@ run.algorithm <- function(algorithm_file,
     }
     if(!is.matrix(X0)) X0=as.matrix(X0,ncol=length(input),byrow = T)
     colnames(X0) <- names(input)
+    if (!silent) trace(capture.output(print(X0)))
     F = function(X) {
         m = t(apply(X,1,objective_function));
         colnames(m)<-output;
@@ -231,6 +232,7 @@ run.algorithm <- function(algorithm_file,
     
     #X0 = from01(X0,input) #X.min=Xmin.model(objective_function),X.max=Xmax.model(objective_function))
     Y0 = F(X0)
+    if (!silent) trace(capture.output(print(Y0)))
     Xi = X0
     Yi = Y0
     
@@ -258,6 +260,9 @@ run.algorithm <- function(algorithm_file,
             Yj = F(Xj)
             Xi = rbind(Xi,Xj)
             Yi = rbind(Yi,Yj)
+
+            if (!silent) trace(capture.output(print(Xi)))
+            if (!silent) trace(capture.output(print(Yi)))
         }
     }
     
