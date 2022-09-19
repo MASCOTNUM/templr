@@ -152,6 +152,7 @@ read.algorithm = function(file,info="help"){
 #' @param algorithm_file tempalted algorithm file
 #' @param objective_function function to apply algorithm on
 #' @param input list of input arguments of function (eg. list(x1=list(min=0,max=1),x2=list(min=10,max=20)))
+#' @param output list of output names
 #' @param options algorithm options to overload default ones
 #' @param work_dir working directory to run algorithm. will store output files, images, ..
 #' @param trace display running info
