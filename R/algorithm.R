@@ -237,6 +237,9 @@ run.algorithm <- function(algorithm_file,
     finished = FALSE
     i = 0
     while (!finished) {
+        # Try temp analysis
+        try(res <- algorithm$envir$displayResultsTmp(instance,Xi,Yi),silent = silent)
+
         i = i + 1
         trace(paste0("Iterating algorithm... ",i))
         err = NULL
