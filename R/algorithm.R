@@ -224,7 +224,7 @@ run.algorithm <- function(algorithm_file,
     if(!is.matrix(X0)) X0=as.matrix(X0,ncol=length(input),byrow = T)
     colnames(X0) <- names(input)
     F = function(X) {
-        m=matrix(apply(X,1,objective_function),nrow=nrow(X));
+        m=t(as.matrix(apply(X,1,objective_function)));
         colnames(m)<-output;
         m
     }
