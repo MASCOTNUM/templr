@@ -226,6 +226,7 @@ run.algorithm <- function(algorithm_file,
     if (!silent) trace(capture.output(print(X0)))
     F = function(X) {
         m = t(apply(X,1,objective_function));
+        print(m)
         colnames(m)<-output;
         m
     }
