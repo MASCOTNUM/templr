@@ -265,7 +265,6 @@ run.algorithm <- function(algorithm_file,
         #colnames(Xj)<-names(input)
         if (save_data) saveRDS(Xi,file.path(".",paste0("X",i,".Rds")))
         if (save_data) saveRDS(Yi,file.path(".",paste0("Y",i,".Rds")))
-
         
         if (is.null(Xj) | any(is.na(Xj)) | any(is.nan(Xj)) | length(Xj) == 0) {
             finished = TRUE
