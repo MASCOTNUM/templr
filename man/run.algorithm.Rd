@@ -12,7 +12,8 @@ run.algorithm(
   options = NULL,
   work_dir = ".",
   trace = function(...) cat(paste0(..., "\\n")),
-  silent = FALSE
+  silent = FALSE,
+  save_data = TRUE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ run.algorithm(
 \item{trace}{display running info}
 
 \item{silent}{quietness}
+
+\item{save_data}{enable (by default) saving of data (in .Rds) along algorithm iterations.}
 }
 \value{
 algorithm result (and algorithm object & files as attributes)
