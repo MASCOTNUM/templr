@@ -258,11 +258,17 @@ run.algorithm <- function(algorithm_file,
         trace(paste0("Iterating algorithm... ",i))
         err = NULL
         Xj = NULL
+        # withCallingHandlers({
+        #     tryCatch(
+        #         Xj <- algorithm$envir$getNextDesign(instance,Xi,Yi)
+        #         , error=function(e) stop("Error while computing getNextDesign:\n",err,"\n with data:\n",paste.XY(Xi,Yi)))
+        # }, error=function(e) {setwd(prev.path); print(sys.calls())})
         tryCatch(Xj <- algorithm$envir$getNextDesign(instance,Xi,Yi),error=function(e) err <<- e)
         if(!is.null(err)) {
             setwd(prev.path)
-            stop("Error while computing getNextDesign\n",paste.XY(Xi,Yi))
+            stop("Error while computing getNextDesign:\n",err,"\n with data:\n",paste.XY(Xi,Yi))
         }
+        
         #colnames(Xj)<-names(input)
         if (save_data) saveRDS(Xi,file.path(".",paste0("X",i,".Rds")))
         if (save_data) saveRDS(Yi,file.path(".",paste0("Y",i,".Rds")))
