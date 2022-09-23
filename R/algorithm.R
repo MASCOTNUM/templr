@@ -209,11 +209,11 @@ run.algorithm <- function(algorithm_file,
     options=def_options
     
     try(instance <- algorithm$envir$new(options),silent = silent)
-    if (save_data) saveRDS(instance,file.path(".",paste0("algorithm.Rds")))
     if(is.null(instance)) {
         setwd(prev.path)       
         stop("Error while instanciating")
     }
+    if (save_data) saveRDS(instance,file.path(".",paste0("algorithm.Rds")))
     #return(list(new=geterrmessage(),init="",next="",display=""))
     
     trace("Initializing algorithm...")
@@ -223,6 +223,8 @@ run.algorithm <- function(algorithm_file,
         setwd(prev.path)
         stop("Error while computing getInitialDesign")
     }
+    if (save_data) saveRDS(instance,file.path(".",paste0("algorithm0.Rds")))
+    
     if(!is.matrix(X0)) X0=as.matrix(X0,ncol=length(input),byrow = T)
     colnames(X0) <- names(input)
     if (save_data) saveRDS(X0,file.path(".",paste0("X0.Rds")))
@@ -236,7 +238,7 @@ run.algorithm <- function(algorithm_file,
     
     #X0 = from01(X0,input) #X.min=Xmin.model(objective_function),X.max=Xmax.model(objective_function))
     Y0 = F(X0)
-    if (save_data) saveRDS(X0,file.path(".",paste0("Y0.Rds")))
+    if (save_data) saveRDS(Y0,file.path(".",paste0("Y0.Rds")))
     if (!silent) trace(capture.output(print(Y0)))
 
     Xi = X0
@@ -245,7 +247,6 @@ run.algorithm <- function(algorithm_file,
     finished = FALSE
     i = 0
     while (!finished) {
-        if (save_data) saveRDS(instance,file.path(".",paste0("algorithm.Rds")))
         
         # Try temp analysis
         trace("Display tmp results...")
@@ -265,8 +266,8 @@ run.algorithm <- function(algorithm_file,
         #colnames(Xj)<-names(input)
         if (save_data) saveRDS(Xi,file.path(".",paste0("X",i,".Rds")))
         if (save_data) saveRDS(Yi,file.path(".",paste0("Y",i,".Rds")))
+        if (save_data) saveRDS(instance,file.path(".",paste0("algorithm",i,".Rds")))
 
-        
         if (is.null(Xj) | any(is.na(Xj)) | any(is.nan(Xj)) | length(Xj) == 0) {
             finished = TRUE
         } else {
