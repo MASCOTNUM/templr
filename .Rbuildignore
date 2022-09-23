@@ -6,5 +6,6 @@
 ^\.lib$
 ^man-roxygen$
 ^\.png$
+^\.Rds$
 ^\.Rhistory$
 ^\.\.Rcheck$

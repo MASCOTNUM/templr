@@ -157,10 +157,11 @@ read.algorithm = function(file,info="help"){
 #' @param work_dir working directory to run algorithm. will store output files, images, ..
 #' @param trace display running info
 #' @param silent quietness
+#' @param save_data enable (by default) saving of data (in .Rds) along algorithm iterations.
 #'
 #' @return algorithm result (and algorithm object & files as attributes)
 #' @export
-#'
+#' @importFrom  utils capture.output
 #' @examples
 #' run.algorithm(
 #'   system.file("Brent.R", package="templr"),
@@ -174,7 +175,7 @@ run.algorithm <- function(algorithm_file,
                           output=NULL,
                           options=NULL,
                           work_dir=".",
-                          trace=function(...) cat(paste0(...,"\n")),silent=FALSE) { #},work_dir=paste0(tempdir(),floor(1000*runif(1)))) {
+                          trace=function(...) cat(paste0(...,"\n")),silent=FALSE,save_data=TRUE) { #},work_dir=paste0(tempdir(),floor(1000*runif(1)))) {
     
     if (!is.function(trace)) trace = function(...){}
     
@@ -188,6 +189,7 @@ run.algorithm <- function(algorithm_file,
     trace(paste0("Parsing code... (in ",algorithm_file, " from ",getwd(),")"))
     algorithm = NULL
     try(algorithm <- parse.algorithm(algorithm_file),silent = silent)
+    saveRDS(algorithm,file.path(".",paste0("algorithm.Rds")))
     if(is.null(algorithm)) {
         stop("Error while parsing code")
     }
@@ -208,6 +210,7 @@ run.algorithm <- function(algorithm_file,
     options=def_options
     
     try(instance <- algorithm$envir$new(options),silent = silent)
+    saveRDS(instance,file.path(".",paste0("instance.Rds")))
     if(is.null(instance)) {
         setwd(prev.path)       
         stop("Error while instanciating")
@@ -223,7 +226,9 @@ run.algorithm <- function(algorithm_file,
     }
     if(!is.matrix(X0)) X0=as.matrix(X0,ncol=length(input),byrow = T)
     colnames(X0) <- names(input)
+    saveRDS(X0,file.path(".",paste0("X0.Rds")))
     if (!silent) trace(capture.output(print(X0)))
+
     F = function(X) {
         m = matrix(apply(X,1,objective_function),nrow=nrow(X),byrow=T);
         colnames(m)<-output;
@@ -232,7 +237,9 @@ run.algorithm <- function(algorithm_file,
     
     #X0 = from01(X0,input) #X.min=Xmin.model(objective_function),X.max=Xmax.model(objective_function))
     Y0 = F(X0)
+    saveRDS(X0,file.path(".",paste0("Y0.Rds")))
     if (!silent) trace(capture.output(print(Y0)))
+
     Xi = X0
     Yi = Y0
     
@@ -252,6 +259,13 @@ run.algorithm <- function(algorithm_file,
             stop("Error while computing getNextDesign\n",paste.XY(Xi,Yi))
         }
         #colnames(Xj)<-names(input)
+        saveRDS(Xi,file.path(".",paste0("X",i,".Rds")))
+        saveRDS(Yi,file.path(".",paste0("Y",i,".Rds")))
+        
+        trace("Display tmp results...")
+        restmp = NULL
+        try(restmp <- algorithm$envir$displayResultsTmp(instance,Xi,Yi),silent = silent)
+        if(!is.null(restmp)) saveRDS(restmp,file.path(".",paste0("restmp",i,".Rds")))
         
         if (is.null(Xj) | any(is.na(Xj)) | any(is.nan(Xj)) | length(Xj) == 0) {
             finished = TRUE
@@ -273,6 +287,7 @@ run.algorithm <- function(algorithm_file,
         setwd(prev.path)
         stop("Error while computing displayResults\n",paste.XY(Xi,Yi))
     }
+    saveRDS(res,file.path(".",paste0("res.Rds")))
     
     # if (!is.null(instance$files)) {
     #     for (f in instance$files){
