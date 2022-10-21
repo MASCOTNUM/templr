@@ -149,7 +149,7 @@ read.algorithm = function(file,info="help"){
 
 #' Apply a template algorithm file to an objective function
 #'
-#' @param algorithm_file tempalted algorithm file
+#' @param algorithm_file templated algorithm file
 #' @param objective_function function to apply algorithm on
 #' @param input list of input arguments of function (eg. list(x1=list(min=0,max=1),x2=list(min=10,max=20)))
 #' @param output list of output names
@@ -306,6 +306,23 @@ run.algorithm <- function(algorithm_file,
     attr(res,"files")<-instance$files
     attr(res,"algorithm")<-instance
     return(res)
+}
+
+#' Parse algorithm string result in R list
+#' @param result templated algorithm result string
+#'
+#' @return list of string parsed: extract XML or JSON content
+#' @export
+list.results = function(result) {
+    all_results = xml2::xml_children(xml2::read_xml(paste0("<result>",result,"</result>")))
+    result_list = list()
+    for (a in all_results) {
+        if (xml2::xml_name(a)=="HTML")
+            result_list[[xml2::xml_name(a)]] = gsub("\"","\\\"",xml2::xml_text(a))
+        else
+            try({result_list[[xml2::xml_name(a)]] <- jsonlite::fromJSON(gsub("'","\\'",xml2::xml_text(a)))})
+    }
+    result_list
 }
 
 paste.XY = function(X,Y) {

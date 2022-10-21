@@ -17,7 +17,7 @@ run.algorithm(
 )
 }
 \arguments{
-\item{algorithm_file}{tempalted algorithm file}
+\item{algorithm_file}{templated algorithm file}
 
 \item{objective_function}{function to apply algorithm on}
 

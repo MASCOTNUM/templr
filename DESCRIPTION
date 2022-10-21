@@ -19,7 +19,7 @@ Description: Helper functions for MASCOTNUM algorithm template, for design of nu
 License: Apache License (>= 2)
 Encoding: UTF-8
 Depends: R (>= 4.0)
-Imports: utils, stats, remotes
+Imports: utils, stats, remotes, xml2, jsonlite
 Suggests: testthat, future
 URL: https://github.com/MASCOTNUM/templr
 RoxygenNote: 7.2.1
