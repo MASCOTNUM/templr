@@ -1,7 +1,7 @@
 Package: templr
 Type: Package
 Title: MASCOTNUM Algorithms Template Tools
-Version: 0.1-0
+Version: 0.2-0
 Date: 2022-08-05
 Author: Yann Richet [aut, cre] (<https://orcid.org/0000-0002-5677-8458>)
 Maintainer: Yann Richet <yann.richet@irsn.fr>

@@ -152,7 +152,10 @@ read.algorithm = function(file,info="help"){
 #' @return list of string parsed: extract XML or JSON content
 #' @export
 #' @examples
-#'  list.results("<HTML name='minimum'>minimum is 0.523431237543406 found at  = 0.543459029033452; = 0.173028395040855<br/><img src='pairs_10.png' width='600' height='600'/></HTML> <min> 0.523431237543406 </min> <argmin>[ 0.543459029033452,0.173028395040855 ]</argmin>")
+#'  list.results(paste0(
+#'   "<HTML name='minimum'>minimum is 0.523431237543406 found at ...</HTML>",
+#'   "<min> 0.523431237543406 </min>",
+#'   "<argmin>[ 0.543459029033452,0.173028395040855 ]</argmin>"))
 list.results = function(result) {
     all_results = xml2::xml_children(xml2::read_xml(paste0("<result>",result,"</result>")))
     result_list = list()
@@ -236,7 +239,7 @@ run.algorithm <- function(algorithm_file,
     t0 = Sys.time() # time stamp to evaluate time between iterations
     try(instance <- algorithm$envir$new(options),silent = silent)
     t1 = Sys.time()-t0
-    trace(paste0("                          ",t1))
+    trace(paste0("                      ... in ",format(t1,digits=3)," s"))
     if(is.null(instance)) {
         setwd(prev.path)       
         stop("Error while instanciating")
@@ -249,7 +252,7 @@ run.algorithm <- function(algorithm_file,
     t0 = Sys.time() # time stamp to evaluate time between iterations
     try(X0 <- algorithm$envir$getInitialDesign(instance, input, output),silent = silent)
     t1 = Sys.time()-t0
-    trace(paste0("                          ",t1))
+    trace(paste0("                      ... in ",format(t1,digits=3)," s"))
     if(is.null(X0)) {
         setwd(prev.path)
         stop("Error while computing getInitialDesign")
@@ -272,7 +275,7 @@ run.algorithm <- function(algorithm_file,
     t0 = Sys.time() # time stamp to evaluate time between iterations
     Y0 = F(X0)
     t1 = Sys.time()-t0
-    trace(paste0("                          ",t1))
+    trace(paste0("                      ... in ",format(t1,digits=3)," s"))
     if (save_data) saveRDS(Y0,file.path(".",paste0("Y0.Rds")))
     if (!silent) trace(capture.output(print(Y0)))
 
@@ -289,7 +292,8 @@ run.algorithm <- function(algorithm_file,
         t0 = Sys.time() # time stamp to evaluate time between iterations
         try(restmp <- algorithm$envir$displayResultsTmp(instance,Xi,Yi),silent = silent)
         t1 = Sys.time()-t0
-        trace(paste0("                          ",t1))
+        trace(paste0("                      ... in ",format(t1,digits=3)," s"))
+        trace(restmp)
         if (save_data) if(!is.null(restmp)) saveRDS(restmp,file.path(".",paste0("restmp",i,".Rds")))
         
         i = i + 1
@@ -304,7 +308,7 @@ run.algorithm <- function(algorithm_file,
         t0 = Sys.time() # time stamp to evaluate time between iterations
         tryCatch(Xj <- algorithm$envir$getNextDesign(instance,Xi,Yi),error=function(e) err <<- e)
         t1 = Sys.time()-t0
-        trace(paste0("                          ",t1))
+        trace(paste0("                      ... in ",format(t1,digits=3)," s"))
         if(!is.null(err)) {
             setwd(prev.path)
             stop("Error while computing getNextDesign:\n",err,"\n with data:\n",paste.XY(Xi,Yi))
@@ -323,7 +327,7 @@ run.algorithm <- function(algorithm_file,
             t0 = Sys.time() # time stamp to evaluate time between iterations
             Yj = F(Xj)
             t1 = Sys.time()-t0
-            trace(paste0("                          ",t1))
+            trace(paste0("                      ... in ",format(t1,digits=3)," s"))
             Xi = rbind(Xi,Xj)
             Yi = rbind(Yi,Yj)
 
@@ -337,11 +341,12 @@ run.algorithm <- function(algorithm_file,
     t0 = Sys.time() # time stamp to evaluate time between iterations
     try(res <- algorithm$envir$displayResults(instance,Xi,Yi),silent = silent)
     t1 = Sys.time()-t0
-    trace(paste0("                          ",t1))
+    trace(paste0("                      ... in ",format(t1,digits=3)," s"))
     if(is.null(res)) {
         setwd(prev.path)
         stop("Error while computing displayResults\n",paste.XY(Xi,Yi))
     }
+    trace(res)
     if (save_data) saveRDS(res,file.path(".",paste0("res.Rds")))
     
     # if (!is.null(instance$files)) {
