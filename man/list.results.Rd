@@ -15,3 +15,6 @@ list of string parsed: extract XML or JSON content
 \description{
 Parse algorithm string result in R list
 }
+\examples{
+ list.results("<HTML name='minimum'>minimum is 0.523431237543406 found at  = 0.543459029033452; = 0.173028395040855<br/><img src='pairs_10.png' width='600' height='600'/></HTML> <min> 0.523431237543406 </min> <argmin>[ 0.543459029033452,0.173028395040855 ]</argmin>")
+}

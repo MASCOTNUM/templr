@@ -146,6 +146,31 @@ read.algorithm = function(file,info="help"){
 }
 
 
+#' Parse algorithm string result in R list
+#' @param result templated algorithm result string
+#'
+#' @return list of string parsed: extract XML or JSON content
+#' @export
+#' @examples
+#'  list.results("<HTML name='minimum'>minimum is 0.523431237543406 found at  = 0.543459029033452; = 0.173028395040855<br/><img src='pairs_10.png' width='600' height='600'/></HTML> <min> 0.523431237543406 </min> <argmin>[ 0.543459029033452,0.173028395040855 ]</argmin>")
+list.results = function(result) {
+    all_results = xml2::xml_children(xml2::read_xml(paste0("<result>",result,"</result>")))
+    result_list = list()
+    for (a in all_results) {
+        if (xml2::xml_name(a)=="HTML")
+            result_list[[xml2::xml_name(a)]] = gsub("\"","\\\"",xml2::xml_text(a))
+        else
+            try({result_list[[xml2::xml_name(a)]] <- jsonlite::fromJSON(gsub("'","\\'",xml2::xml_text(a)))})
+    }
+    result_list
+}
+
+paste.XY = function(X,Y) {
+    return(paste0("X=\n",
+                  paste0(utils::capture.output(print(X)),collapse = "\n"),
+                  "\nY=\n",
+                  paste0(utils::capture.output(print(Y)),collapse = "\n")))
+}
 
 #' Apply a template algorithm file to an objective function
 #'
@@ -186,7 +211,7 @@ run.algorithm <- function(algorithm_file,
     }
     # algorithm_file = normalizePath(algorithm_file)
     
-    trace(paste0("Parsing code... (in ",algorithm_file, " from ",getwd(),")"))
+    trace(paste0("# Parsing code... (in ",algorithm_file, " from ",getwd(),")"))
     algorithm = NULL
     try(algorithm <- parse.algorithm(algorithm_file),silent = silent)
     if(is.null(algorithm)) {
@@ -201,14 +226,17 @@ run.algorithm <- function(algorithm_file,
     
     # print.env(algorithm$envir)
     
-    trace("Instanciating algorithm...")
     instance = NULL
     def_options=algorithm$options
     for (o in names(def_options)) def_options[[o]]=gsub("\\|.*","",def_options[[o]])
     for (o in names(options)) def_options[[o]]=options[[o]]
     options=def_options
     
+    trace("# Instanciating algorithm...")
+    t0 = Sys.time() # time stamp to evaluate time between iterations
     try(instance <- algorithm$envir$new(options),silent = silent)
+    t1 = Sys.time()-t0
+    trace(paste0("                          ",t1))
     if(is.null(instance)) {
         setwd(prev.path)       
         stop("Error while instanciating")
@@ -216,9 +244,12 @@ run.algorithm <- function(algorithm_file,
     if (save_data) saveRDS(instance,file.path(".",paste0("algorithm.Rds")))
     #return(list(new=geterrmessage(),init="",next="",display=""))
     
-    trace("Initializing algorithm...")
+    trace("# Initializing algorithm...")
     X0 = NULL
+    t0 = Sys.time() # time stamp to evaluate time between iterations
     try(X0 <- algorithm$envir$getInitialDesign(instance, input, output),silent = silent)
+    t1 = Sys.time()-t0
+    trace(paste0("                          ",t1))
     if(is.null(X0)) {
         setwd(prev.path)
         stop("Error while computing getInitialDesign")
@@ -237,7 +268,11 @@ run.algorithm <- function(algorithm_file,
     }
     
     #X0 = from01(X0,input) #X.min=Xmin.model(objective_function),X.max=Xmax.model(objective_function))
+    trace("Compute objective function")
+    t0 = Sys.time() # time stamp to evaluate time between iterations
     Y0 = F(X0)
+    t1 = Sys.time()-t0
+    trace(paste0("                          ",t1))
     if (save_data) saveRDS(Y0,file.path(".",paste0("Y0.Rds")))
     if (!silent) trace(capture.output(print(Y0)))
 
@@ -249,13 +284,16 @@ run.algorithm <- function(algorithm_file,
     while (!finished) {
         
         # Try temp analysis
-        trace("Display tmp results...")
+        trace("# Display tmp results...")
         restmp = NULL
+        t0 = Sys.time() # time stamp to evaluate time between iterations
         try(restmp <- algorithm$envir$displayResultsTmp(instance,Xi,Yi),silent = silent)
+        t1 = Sys.time()-t0
+        trace(paste0("                          ",t1))
         if (save_data) if(!is.null(restmp)) saveRDS(restmp,file.path(".",paste0("restmp",i,".Rds")))
         
         i = i + 1
-        trace(paste0("Iterating algorithm... ",i))
+        trace(paste0("# Iterating algorithm... ",i))
         err = NULL
         Xj = NULL
         # withCallingHandlers({
@@ -263,7 +301,10 @@ run.algorithm <- function(algorithm_file,
         #         Xj <- algorithm$envir$getNextDesign(instance,Xi,Yi)
         #         , error=function(e) stop("Error while computing getNextDesign:\n",err,"\n with data:\n",paste.XY(Xi,Yi)))
         # }, error=function(e) {setwd(prev.path); print(sys.calls())})
+        t0 = Sys.time() # time stamp to evaluate time between iterations
         tryCatch(Xj <- algorithm$envir$getNextDesign(instance,Xi,Yi),error=function(e) err <<- e)
+        t1 = Sys.time()-t0
+        trace(paste0("                          ",t1))
         if(!is.null(err)) {
             setwd(prev.path)
             stop("Error while computing getNextDesign:\n",err,"\n with data:\n",paste.XY(Xi,Yi))
@@ -278,7 +319,11 @@ run.algorithm <- function(algorithm_file,
             finished = TRUE
         } else {
             #Xj = from01(Xj,X.min=Xmin.model(objective_function),X.max=Xmax.model(objective_function))
+            trace("Compute objective function")
+            t0 = Sys.time() # time stamp to evaluate time between iterations
             Yj = F(Xj)
+            t1 = Sys.time()-t0
+            trace(paste0("                          ",t1))
             Xi = rbind(Xi,Xj)
             Yi = rbind(Yi,Yj)
 
@@ -287,9 +332,12 @@ run.algorithm <- function(algorithm_file,
         }
     }
     
-    trace("Display results...")
+    trace("# Display results...")
     res = NULL
+    t0 = Sys.time() # time stamp to evaluate time between iterations
     try(res <- algorithm$envir$displayResults(instance,Xi,Yi),silent = silent)
+    t1 = Sys.time()-t0
+    trace(paste0("                          ",t1))
     if(is.null(res)) {
         setwd(prev.path)
         stop("Error while computing displayResults\n",paste.XY(Xi,Yi))
@@ -306,28 +354,4 @@ run.algorithm <- function(algorithm_file,
     attr(res,"files")<-instance$files
     attr(res,"algorithm")<-instance
     return(res)
-}
-
-#' Parse algorithm string result in R list
-#' @param result templated algorithm result string
-#'
-#' @return list of string parsed: extract XML or JSON content
-#' @export
-list.results = function(result) {
-    all_results = xml2::xml_children(xml2::read_xml(paste0("<result>",result,"</result>")))
-    result_list = list()
-    for (a in all_results) {
-        if (xml2::xml_name(a)=="HTML")
-            result_list[[xml2::xml_name(a)]] = gsub("\"","\\\"",xml2::xml_text(a))
-        else
-            try({result_list[[xml2::xml_name(a)]] <- jsonlite::fromJSON(gsub("'","\\'",xml2::xml_text(a)))})
-    }
-    result_list
-}
-
-paste.XY = function(X,Y) {
-    return(paste0("X=\n",
-                  paste0(utils::capture.output(print(X)),collapse = "\n"),
-                  "\nY=\n",
-                  paste0(utils::capture.output(print(Y)),collapse = "\n")))
 }
