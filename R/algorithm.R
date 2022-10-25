@@ -218,6 +218,7 @@ run.algorithm <- function(algorithm_file,
     algorithm = NULL
     try(algorithm <- parse.algorithm(algorithm_file),silent = silent)
     if(is.null(algorithm)) {
+        trace(traceback())
         stop("Error while parsing code")
     }
     
@@ -241,7 +242,8 @@ run.algorithm <- function(algorithm_file,
     t1 = Sys.time()-t0
     trace(paste0("                      ... in ",format(t1,digits=3)," s"))
     if(is.null(instance)) {
-        setwd(prev.path)       
+        setwd(prev.path)
+        trace(traceback())
         stop("Error while instanciating")
     }
     if (save_data) saveRDS(instance,file.path(".",paste0("algorithm.Rds")))
@@ -255,6 +257,7 @@ run.algorithm <- function(algorithm_file,
     trace(paste0("                      ... in ",format(t1,digits=3)," s"))
     if(is.null(X0)) {
         setwd(prev.path)
+        trace(traceback())
         stop("Error while computing getInitialDesign")
     }
     if (save_data) saveRDS(instance,file.path(".",paste0("algorithm0.Rds")))
